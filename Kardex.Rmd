@@ -1,0 +1,60 @@
+---
+title: "Kardex"
+author: "Sebastian Delgado"
+date: "29 de agosto de 2016"
+output: html_document
+---
+
+#**Kardex "Josué Sebastián Delgado Escobar"**
+###*Matricula: 201510794*
+
+##*Otoño 2015 Primer Semestre*
+Programación Actuarial I          09
+
+Intr. a la profesión Actuarial    10
+
+DHPC                              08
+
+Conceptos de Cálculo              09
+
+Matemáticas Básicas               09
+
+Problemas de Mat. Básicas         09
+
+
+Aprobadas: 6  Reprobadas: 0  Cred: 34.00  Prom: 9.00
+
+
+
+##*Primavera 2016 "Segundo Semestre"*
+
+Programación Actuarial II         10
+
+Teoría del Interés I              08
+
+Formación Humana y Social         10
+
+Cálculo Diferencial               08
+
+Microeconomía                     10
+
+Teoría de ecuaciones              09
+
+
+Aprobadas: 6  Reprobadas: 0  Cred: 30.00  Prom: 9.16
+
+
+
+##*Otoño 2016 "Carga en proceso"*
+
+Programación Actuarial III
+
+Cálculo Integral
+
+Macroeconomía
+
+Algebrá lineal I
+
+Reg. Acad. y Cient. del Esp.
+
+Teoría del Interés II
