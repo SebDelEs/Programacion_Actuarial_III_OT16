@@ -187,4 +187,211 @@ getwd()
 setwd("~/Actuaria/Tercer Semestre/GitHub/Programacion_Actuarial_III_OT16")
 data <- read.csv("Datos_S&P.csv")
 data <- read.table("Datos_S&P.csv",T,",")
+
+
+data <- read.table("Datos_S&P.csv",T,",",nrows = 100,skip = 5)
+clases <- sapply(data,class)
+data <- read.table("Datos_S&P.csv",T,",",colClasses = clases)
 data
+
+
+
+#Uso de dput y dget
+y <- data.frame(a=1,b="a")
+dput(y)
+dput(y,file="y.R")
+# asi guardamos un objeto en el HDD en lugar de en la memoria RAM
+nueva.y <- dget("y.R")
+nueva.y
+
+x <- "Programacion Actuarial III"
+y <- data.frame(a=1,b="a")
+dump(c("x","y"),file="data.R")
+# rm remueve
+x
+source("data.R")
+x
+y
+
+
+bla2 <- head(airquality)
+bla <- data.frame(bla2)
+bla
+dump("bla",file="air.R")
+
+
+
+
+# Analizar URL
+con <- url("http://www.fcfm.buap.mx/","r")
+x <- readLines(con,7) # con esto le decimos cuantas lineas de la variable quermeos ver
+x
+
+
+#Creamos un vector
+x <- c("a","b","c","d","e")
+#Veamos el vector
+x
+
+#extraemos elementos con []
+x[1]
+x[2]
+#Tambien podemos extraer una secuencia de elementos
+x[1:4]
+#Es posible extraer los elementos que cumplen una restriccion
+x[x>"b"]
+#de manera equivalente se puede obtener un vector logico
+u <- x == "c"
+u
+x[u]
+
+
+# Creamos una lista
+x <- list(foo =1:4,bar=0.6)
+# Extraemos el primer elemento de la lista,
+# este elemento es la secuencia en si
+x[1]
+
+# Extraemos nuevamente el primer elemento de la lista, 
+# ahora el elemento es la secuencia en si
+x [[1]]
+
+# Extraemos un elemento por nombre
+x$bar
+x[["bar"]]
+x["bar"]
+
+
+# Clase 07-09-2016
+
+# Extraer un elemento de la primera lista
+x$foo[2]
+
+# Creamos una lista de 3 elementos
+x <- list(foo=1:4,bar=0.6,baz="Hola")
+# Extraemos el primer y tercer elemento de la lista
+x[c(1,3)]
+
+x <- list(foo =1:4,bar=0.6,baz="Hola")
+name <- "foo"
+x[[name]]
+x$name
+x$foo
+
+# Se pueden extraer elementos de los elementos extraidos
+x <- list(a=list(10,12,14),b=list(3.14,2.81))
+x[[c(1,3)]]
+x[[1]][[3]]
+x[[c(2,1)]]
+
+# Extraccion de elementos de una matriz
+x <- matrix(1:6,2,3)
+x
+# El resultado de un vector
+x[1,2]
+x[2,1]
+x[1,]
+x[,2]
+
+# Con drop= FALSE, se mantiene la dimension y el resultado será una matriz
+x[1,2, drop = FALSE]
+
+# se puede extraer toda la fila en forma de matriz
+x[1,,drop = FALSE]
+
+# R puede encontrar el nombre de algunos objetos de manera parcial con $
+x <- list(aardvark = 1:5)
+x$a
+x[["a"]]
+x[["a", exact = FALSE]]
+
+# Valores Faltantes
+airquality[1:6,]
+
+completos <- complete.cases(airquality)
+completos
+
+airquality[completos,]
+airquality[completos,][1:6,]
+airquality[1:6,][completos,]
+
+
+x <- 1:4; y <- 6:9
+x+y
+x>2
+x>=2
+y==8
+x*y
+x/y
+
+x <- matrix(1:4,2,2); y <- matrix(rep(10,4),2,2)
+x
+y
+x*y
+x/y
+x%*%y     # Multiplicacion de matrices    x % * % Y    #
+
+
+########### Estructuras de control #############################
+
+x <- c("a","b","c","d")
+for (i in 1:4){print(x[i])}
+
+for (i in seq_along(x)) {
+  print(x[i])
+}
+
+for (letra in x) {
+  print(letra)
+}
+
+for (i in 1:4) print(x[i])
+
+
+
+# Los ciclos for pueden ser anidados
+x <- matrix(1:6,2,3)
+x
+
+for (i in 1:nrow(x)) {
+  for (j in 1:ncol(x) ) {
+    print(x[i,j])
+  }
+}
+
+for (i in seq_len(nrow(x))){
+    for(j in seq_len(ncol(x))){
+      print(x[i,j])
+    }
+}
+
+
+############ clase 12/09/1  ###########  
+
+# Ciclo While
+z <- 5
+while (z >= 3 && z <= 10) { print(z)
+  moneda <- rbinom(1,1,0.5)
+  if (moneda == 1){#caminata Aleatoria
+    z <- z + 1
+  } else {
+      z <- z - 1
+    }
+}
+
+# Ejercicio Clase
+
+z <- 5
+caminata <- vector("numeric")
+while (z >= 3 && z <= 10) { print(z)
+  moneda <- rbinom(1,1,0.5)
+  caminata <- c(caminata,z)
+  if (moneda == 1){#caminata Aleatoria
+    z <- z + 0.5
+  } else {
+    z <- z - 0.5
+  }
+}
+caminata
+plot(caminata,type ="l")
+
