@@ -395,3 +395,68 @@ while (z >= 3 && z <= 10) { print(z)
 caminata
 plot(caminata,type ="l")
 
+
+################## Ciclo Repeat   19/09/16  #############################
+
+# La instruccion repeat inicia un ciclo infinito que no parara hasta que se llame un break
+
+# ¡NO CORRER! #
+x0 <- 
+  tol <- 1e-8
+repeat {
+  x1 <- CalculaEstimado(x0)
+  if (abs(x1-x0) < tol){
+      break
+  } else{
+    x0 <- x1
+  }
+}
+
+# Creación de funciones
+## Estoy creando una funcion llamada suma2
+suma2 <- function(x,y){
+    x + y
+}
+
+mayor10 <- function(x){
+    x[x>10]
+}
+
+mayor10(runif(100,5,15))
+
+mayorque <- function(x,n){
+  x[x>n]
+}
+
+promedioCol <- function(x,quitar.NA = TRUE){
+    nc <- ncol(x)
+    medias <- vector("numeric",nc)
+    for (i in 1:nc) {
+      medias[i] <- mean(x[,i],na.rm = quitar.NA)
+    }
+    medias
+}
+
+promedioCol(as.matrix(c(1,2,3,NA)))
+
+
+# Evaluacion perezosa
+f <- function(a,b){
+  a^2
+}
+
+f(2)
+
+f <- function(a,b){
+  print(a)
+  print(b)
+}
+
+
+myplot <- funtion(x,y,type="l", ...){
+    plot(x,y,type=type, ...)
+}
+
+
+
+
