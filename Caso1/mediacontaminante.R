@@ -1,7 +1,8 @@
-mediacontaminante <- function(directorio="~/Actuaria/Tercer Semestre/Programacion III/specdata",contaminante="sulfato",id=1:332){
+mediacontaminante <- function(directorio="~/Actuaria/Tercer Semestre/Programacion III/specdata",contaminante="sulfate",id=1:332){
 sumaProm <- 0  
 restar <- 0
-  if (contaminante == "sulfato"){
+totaldatos <-0
+  if (contaminante == "sulfate"){
     for (i in id) {
       if (i < 10){
         j <- paste("00",i,".csv",sep = "")
@@ -16,10 +17,15 @@ restar <- 0
         setwd(directorio)
         data <- read.csv(j)
         prom <- mean(data[,2],na.rm = TRUE)
-        sumaProm <- sumaProm + prom
+        contar <- complete.cases(data[,2])
+        contar1 <- contar[contar==TRUE]
+        numdatos <- length(contar1)
+        suma <-prom*numdatos
+        totaldatos <-totaldatos+numdatos  
+        sumaProm <- sumaProm + suma
     }
   } else {
-    if (contaminante == "nitrato"){
+    if (contaminante == "nitrate"){
       for (i in id) {
         if (i < 10){
           j <- paste("00",i,".csv",sep = "")
@@ -35,15 +41,26 @@ restar <- 0
         data <- read.csv(j)
         prom <- mean(data[,3],na.rm = TRUE)
         if (is.nan(prom)){prom <- 0
-          restar <- restar + 1
         }
-        sumaProm <- sumaProm + prom
+        contar <- complete.cases(data[,3])
+        contar1 <- contar[contar==TRUE]
+        if (is.nan(prom)){
+          numdatos <-0
+          suma <- 0
+        }else{
+        numdatos <- length(contar1)
+        suma <- prom*numdatos
+        }
+        
+        totaldatos <-totaldatos+numdatos  
+        sumaProm <- sumaProm + suma
+        
       }
     }else {
       TotalProm <- c("NA")
     }
     
   }
-  TotalProm<- sumaProm/(length(id) - restar)
+  TotalProm<- sumaProm/totaldatos
   TotalProm
 }
