@@ -458,5 +458,351 @@ myplot <- funtion(x,y,type="l", ...){
 }
 
 
+###### Clase 26/09/2016    Despues del Caso 1 ############
+lm
+lm <- function(x){x*x}
+lm
+rm(lm)
+lm
+#¿Como saber si es lm (regresion lineal) o lm (la funcion que acabamos de inventar)
+# Para saber donde va a buscar la funcion se usa la funcion search que nos da el orden de 
+# busqueda de R
+
+search()
+
+# subir de lugar el paquete stats
+
+library(ggplot2)
+search()
+
+
+# Ambito Lexicologico
+f <- function (x,y){
+  x^2 + y/z  
+}
+
+hacer.potencia <- function(n){
+  potencia <- function(x){
+    x^n
+  }
+  potencia
+}
+
+## cubica y cuadrada guardan una funcion que al darle despues un valor a cubica o cuadrada
+## te da el valor elevado a la potencia que se habia escrito
+cubica <- hacer.potencia(3)
+cuadrada <- hacer.potencia(2)
+cubica(3)
+cuadrada(3)
+
+ls(environment(cubica))
+get("n",environment(cubica))
+ls(environment(cuadrada))
+get("n",environment(cuadrada))
+
+y <- 10
+f <- function(x) {
+    y <-2
+    y^2 +g(x)
+}
+
+g <- function(x){
+    x*y
+}
+
+#Dates and Times
+x <- as.Date("1970-01-01")
+x
+unclass(x)
+unclass(as.Date("1970-01-02"))
+
+date()
+
+############ Clase 28/09/2016   ############## Lapply,Sapply,apply, etc
+
+# Se aplica en una lista y te lo muestra como una lista, lapply aplica una misma
+# funcion a todos los elementos de una lista y nos da como resultado una lista 
+# con los resultados que queremos obtener
+lapply()
+
+x <- list(a=1:5,b= rnorm(10000))
+lapply(x, mean)
+
+x <- list(a=1:5,b= rnorm(10000),c=rnorm(10,1),d=rnorm(10,2))
+lapply(x, mean)
+
+x<- 1:4
+lapply(x,runif,min=5,max=15)
+
+
+# Sapply , intentara mejorar lapply (solo si es posible), ya que el resultado
+# lo devolvera como un vector o una matriz si es posible, en caso contrario 
+# nos dará el mismo resultado que lapply
+x <- list(a=1:5,b= rnorm(10000))
+sapply(x, mean)
+
+x <- list(a=1:5,b= rnorm(10000),c=rnorm(10,1),d=rnorm(10,2))
+sapply(x, mean)
+
+x<- 1:4
+sapply(x,runif,min=5,max=15)
+
+# apply, similar a las funciones lapply y sapply pero requiere mas argumentos
+
+apply
+
+x <- matrix(rnorm(200),20,10)
+apply(x,2,mean)
+
+x <- matrix (rnorm(200),20,10)
+apply(x,1,quantile,probs=c(0.25,0.75))
+
+a <- array(rnorm(2*2*10),c(2,2,10))
+apply(a,c(1,2),mean)
+rowMeans(a,dims=2)
+
+# mapply, un ejemplo donde pude ocuparse es para verificar un promedio con y sin 
+# valores faltantes
+# mapply sirve para aplicar de manera vectorizada los argumentos de una funcion
+
+list(rep(1,4),rep(2,3),rep(3,2),rep(4,1))
+# la lista de arriba y el mapply de abajo hacen lo mismo
+mapply(rep,1:4,4:1)
+
+noise <- function(n,mean,sd){
+     rnorm(n,mean,sd)
+}
+
+noise(5,1,2)
+noise(1:5,1:5,2)
+
+mapply (noise,1:5,1:5,2)
+
+
+# tapply (para aplicar a tablas)
+
+x <- c(rnorm(10),runif(10),rnorm(10,1))
+f<- gl(3,10)
+f
+tapply(x,f,mean)
+
+
+#################   Clase 29/09/2016    split   #################
+
+str(split)
+
+x <- c(rnorm(10),runif(10),rexp(10))
+f <- gl(3,10)
+f
+split(x,f)
+
+lapply(split(x,f),mean)
+
+library(datasets)
+head(airquality)
+
+head(airquality)
+
+
+### Ejercicio agrupar datos por mes de airquality
+
+x <- airquality
+f <- x[,5]
+split(x,f)
+
+g <- airquality[,5]
+split(airquality,g)
+
+
+# Correcto
+s <- split(airquality,airquality$Month)
+lapply(s, function(x) colMeans(x[,1:3]))
+
+sapply(s, function(x) colMeans(x[,1:4],na.rm=T))
+
+
+# interpretar lo siguiente
+x <- rnorm(10)
+f1 <- gl(2,5)
+f1
+f2 <- gl(5,2)
+f2
+interaction(f1,f2)
+x
+str(split(x,list(f1,f2)))
+
+####### Clase 03/10/2016 ###### Busqueda de errores
+
+install.packages("swirl")
+library("swirl")
+swirl()
+
+
+
+
+
+
+##########  Clase 05/10/2016  ###############
+
+str(str)
+str(lm)
+str(ls)
+x <- rnorm (100)
+str(x)
+summary(x)
+
+# Crear una lista de factores
+ f <- gl(40,10)
+ f
+summary(f)
+
+str(airquality)
+
+y <- matrix(rnorm(100),10,10)
+y
+str(y)
+
+s <- split(airquality, airquality$Month)
+s
+
+
+
+###### Generar numeros aleatorios  #########
+
+# d -- densidad
+# r -- generar variable aleatoria
+# p -- para la distribucion acumulativa
+# q -- para el cuantil de una funcion
+
+x <- rnorm (10)
+y <- rnorm(10,50,5)
+summary(x)
+summary(y)
+
+
+# la semilla (seed) es para generar los mismos numeros aleatorios (porque la
+# base es la semilla)
+set.seed(1)
+rnorm(5)
+set.seed(2)
+rnorm(5)
+set.seed(1)
+rnorm(5)
+
+normal1 <- rnorm(10000)
+normal2 <- rnorm(10000,10,5)
+# la funcion hist grafica un histograma de frecuencias
+hist(normal1)
+# si no tuvuera la funcion hist para ver de donde a donde van los datos puedo usar
+summary(normal1)
+
+hist(normal2)
+summary(normal2)
+
+# distribucion llamada Poisson
+rpois(10,1)
+poisson1 <- rpois(10000,1)
+poisson2 <- rpois(10000,10)
+hist(poisson1)
+hist(poisson2)
+
+ppois(2,2)
+ppois(4,2)
+hist(rpois(10000,2))
+
+
+x <- 1:8
+sapply(ppois(x,2))
+
+frec <- vector("numeric")
+resta <-0
+a <-0
+for(i in 0:13){
+     resta <- a
+     a <- ppois(i,2)
+     bla <- (a-resta)
+     frec <- c(frec,bla)
+}
+frec
+
+for (i in 0:13) { print(dpois(i,2))}
+
+# genera numeros aleatorios para una distribucion uniforme
+hist(runif(10000,10,20))
+
+set.seed(20)
+x <- rnorm(100)
+e <- rnorm(100,0,2)
+y <- (0.5+ 2*x + e)
+plot(x,y)
+
+
+z <- 0.5 +2*x
+plot(x,z)
+plot(z,y)
+
+
+set.seed(10)
+x <- rbinom(100,1,0.5)
+e <- rnorm(100,0,2)
+y <- 0.5 +2*x +e
+summary(y)
+plot(x,y,main="Modelo Lineal",col="dark red")
+
+
+set.seed(1)
+x <- rnorm(100)
+log.mu <- 0.5 + 0.3*x
+y <-rpois(100,exp(log.mu))
+summary(y)
+plot(x,y,main = "Modelo Poisson",col="forestgreen")
+
+
+
+######## Clase 10/10/16 ########## MUESTREO #######
+#¿Como llevarlo a cabo? Tomar al azar dentro de un grupo de valores
+set.seed(1)
+sample(1:10,4)
+sample(letters,5)
+sample(1:10,replace= TRUE)
+
+
+# Crear una funcion
+hilbert <- function(n){
+     i <- 1:n
+     1/outer(i-1,i,"+")
+}
+
+x <- hilbert(1000)
+system.time(svd(x))
+
+
+
+traceback(lm())
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
