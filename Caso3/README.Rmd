@@ -1,0 +1,137 @@
+#**Caso: Reconocimiento de Actividad Humana con Celulares**
+
+##*Introducción*
+
+Una de las áreas más populares del análisis de datos proviene de las computadoras de vestimenta.
+
+Para más detalles puedes consultar este artículo:
+http://www.insideactivitytracking.com/datascienceactivitytrackingandthebattlefortheworldstopsportsbrand/
+
+Compañías como Fitbit, Nike y Jawbone Up compiten para desarrollar los algoritmos más avanzadospara atraer a nuevos usuarios. Los datos de este caso provienen de los acelerómetros ubicados encelulares Samsung Galaxy S.
+
+Una mayor descripción de la base de datos y su recopilación puede ser hallada en la siguiente liga:
+http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones
+
+###Datos###
+Los datos pueden ser descargados de la siguiente liga:
+
+https://www.dropbox.com/s/j26ksrw1jzqz2a1/getdata-projectfiles-UCI%20HAR%20Dataset.zip?dl=0
+
+##*Instrucciones*
+El propósito de este proyecto es demostrar tu habilidad para recolectar, trabajar y limpiar base dedatos. El objetivo es preparar un conjunto ordenado de información que pueda ser trabajado enanálisis posteriores.
+
+Considera incluir:
+
+1) La base de datos ordenada
+
+2) Dirección de GitHub para el repositorio
+
+3) Un libro de códigos para describir las variables, la base de datos y las transformaciones querealices llamado "CodeBook.md".
+
+4) Un archivo "README.md" en el repositorio con tus códigos. Este archivo explica el funcionamiento de tus scripts y como se conectan entre ellos.
+
+Deberás crear un código en R llamado "correr_analisis.R" que haga lo siguiente:
+
+1) Une los datos de test con los de training, para crear un solo conjunto de datos.
+
+2) Extrae únicamente las medidas de media y desviación estándar de cada medición.
+
+3) Usa nombres de actividad para describir los nombres de las actividades en la base de datos.
+
+4) Coloca etiquetas apropiadas en la base de datos con nombres de variables que las describan.
+
+5) Con los datos del paso 4, crea una segunda base de datos independiente con el promedio de cada variable para cada actividad y cada sujeto.
+
+
+##*¿Cómo funciona?*
+
+Primero seleccionamos el directorio de trabajo (Donde se encuentran los archivos)
+
+     setwd("~/Actuaria/Tercer Semestre/getdata-projectfiles-UCIHARDataset/UCIHAR Dataset")
+     
+Abrimos la librería "dplyr" pues se ocupará mas adelante
+     library("dplyr")
+
+Posteriormente realizamos la extracción de datos
+
+     subject_test <- read.table("./test/subject_test.txt")
+     x_test <- read.table("./test/X_test.txt")
+     y_test <- read.table("./test/y_test.txt")
+
+     subject_train <- read.table("./train/subject_train.txt")
+     x_train <- read.table("./train/X_train.txt")
+     y_train <- read.table("./train/y_train.txt")
+
+     features <- read.table("./features.txt")[,2]
+     actividades <- read.table("./activity_labels.txt")[,2]
+     
+Despues unimos los datos de test y train
+
+     unionx <- rbind(x_test,x_train)
+     uniony <- rbind(y_test,y_train)
+     unionsubject <- rbind(subject_test,subject_train)
+     
+Cambiamos nombres de variables y actividades
+
+     colnames(unionx)<- features
+     colnames(uniony)<- "Actividades"
+     colnames(unionsubject) <- "Sujetos"
+
+Seleccionamos los nombres de columnas que necesitamos(mean,std)
+
+     featmean <- features[grep("-mean\\(",features)]
+     featstd <- features[grep("-std\\(",features)]
+     featmean2 <- as.character(featmean)
+     featstd2 <- as.character(featstd)
+     
+Limpiamos los datos (Ya que solo queremos los correspondientes a Mean y Std)
+
+     features2 <- c(featmean2,featstd2)
+     purge <- unionx[,features2]
+
+Creamos grupos para trabajar de manera mas sencilla
+
+     tabla <- cbind(purge,uniony,unionsubject)
+     tabla2 <- arrange(tabla,Sujetos)
+     tabla3 <- split(tabla2,tabla2$Sujetos)
+     
+Aqui lo que hacemos es crear algunas variables para facilitarnos la obtención de los promedios de cada caracteristica y con ello construir la tabla final (datos limpios)     
+
+     prom <- vector("numeric")   
+     datos2<-data.frame(features2)
+     colnames(datos2)<- "caracteristicas"
+     for (i in 1:30) {  
+     
+          tf <- filter(tabla2,Sujetos==i)
+          su<- paste(i)
+          datos<- data.frame(su)
+          nom<-paste("sujeto",i)
+          colnames(datos)<- nom
+          for (j in 1:6) {
+               nom <- actividades[j]
+               tablaff <-  filter(tf,Actividades==j)
+               tablaff<- select(tablaff,-(Actividades:Sujetos))
+               promedios <- colMeans(tablaff)
+               prom<-data.frame(promedios[])
+               colnames(prom)<- nom
+               datos<-cbind(datos,prom)
+          }
+          datos2<-data.frame(datos2,datos)
+     }
+
+Variable que almacena los datos limpios
+
+     datosfinal <- select(datos2,-(caracteristicas))   
+
+Creación de el archivo txt que contiene los datos limpios
+
+     write.table(datosfinal,row.names = TRUE,file="datos_limpios.txt")
+
+
+
+
+
+
+
+
+
